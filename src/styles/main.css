@@ -1,0 +1,131 @@
+/* ===========================
+   main.css - Global & Upload Styles
+   =========================== */
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* ===========================
+   Upload Component
+   =========================== */
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.upload-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.upload-box {
+  background-color: #ffffff;
+  border: 2px dashed #4a90d9;
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.3s;
+}
+
+.upload-box:hover {
+  border-color: #1d6fbf;
+}
+
+/* Hidden native file input */
+.file-input {
+  display: none;
+}
+
+/* Custom styled label acting as the choose-file button */
+.file-label {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background-color: #4a90d9;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.25s, transform 0.15s;
+  user-select: none;
+}
+
+.file-label:hover {
+  background-color: #1d6fbf;
+  transform: translateY(-1px);
+}
+
+.file-label:active {
+  transform: translateY(0);
+}
+
+/* Display selected file name */
+.file-name {
+  font-size: 0.875rem;
+  color: #555;
+  word-break: break-all;
+  text-align: center;
+}
+
+/* Upload button */
+.upload-btn {
+  padding: 0.65rem 2rem;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.15s, opacity 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background-color: #1e7e34;
+  transform: translateY(-1px);
+}
+
+.upload-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.upload-btn:disabled {
+  background-color: #a0cfb0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Status message */
+.upload-status {
+  font-size: 0.875rem;
+  color: #1d6fbf;
+  text-align: center;
+  font-style: italic;
+}
