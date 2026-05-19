@@ -1,0 +1,124 @@
+/* ===========================
+   Dashboard Page Styles
+   =========================== */
+
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.dashboard-filename {
+  color: #555;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.back-btn {
+  padding: 0.5rem 1.2rem;
+  background-color: #4a90d9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  background-color: #1d6fbf;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #777;
+  margin-bottom: 0.4rem;
+}
+
+.card-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.card-total   .card-value { color: #1a1a2e; }
+.card-allowed .card-value { color: #28a745; }
+.card-blocked .card-value { color: #dc3545; }
+.card-other   .card-value { color: #fd7e14; }
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.audit-table th {
+  background-color: #1a1a2e;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.audit-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.audit-table tbody tr:hover {
+  background-color: #f5f8ff;
+}
+
+.row-blocked td { background-color: #fff5f5; }
+.row-allowed td { background-color: #f5fff7; }
+
+.no-entries,
+.dashboard-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #777;
+}

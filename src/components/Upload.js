@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/main.css';
+import { uploadFile } from '../utils/api';
 
-function Upload() {
+function Upload({ onUploadSuccess }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -11,16 +13,25 @@ function Upload() {
     setUploadStatus('');
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!selectedFile) {
       setUploadStatus('Please select a file before uploading.');
       return;
     }
-    // Simulate upload
+
+    setIsLoading(true);
     setUploadStatus(`Uploading "${selectedFile.name}"...`);
-    setTimeout(() => {
-      setUploadStatus(`"${selectedFile.name}" uploaded successfully.`);
-    }, 1500);
+
+    const { data, error } = await uploadFile(selectedFile);
+
+    setIsLoading(false);
+
+    if (error) {
+      setUploadStatus(`Upload failed: ${error}`);
+    } else {
+      setUploadStatus(data?.message || `"${selectedFile.name}" uploaded successfully.`);
+      if (onUploadSuccess) onUploadSuccess(data);
+    }
   };
 
   return (
@@ -43,9 +54,9 @@ function Upload() {
         <button
           className="upload-btn"
           onClick={handleUpload}
-          disabled={!selectedFile}
+          disabled={!selectedFile || isLoading}
         >
-          Upload
+          {isLoading ? 'Uploading…' : 'Upload'}
         </button>
         {uploadStatus && (
           <p className="upload-status">{uploadStatus}</p>
