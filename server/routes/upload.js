@@ -70,7 +70,24 @@ function buildSummary(entries) {
             String(e.action || e.Action || '').toUpperCase() === 'PERMIT'
   ).length;
 
-  return { total, blocked, allowed, other: total - blocked - allowed };
+  // Calculate unique rules (combinations of key firewall fields)
+  const uniqueRules = new Set();
+  entries.forEach((e) => {
+    const ruleKey = `${e.source_ip || e.Source || ''}-${e.dest_ip || e.Destination || ''}-${e.protocol || e.Protocol || ''}-${e.port || e.Port || ''}`;
+    uniqueRules.add(ruleKey);
+  });
+
+  // Risk count = blocked/denied entries
+  const riskCount = blocked;
+
+  return {
+    total,
+    blocked,
+    allowed,
+    other: total - blocked - allowed,
+    totalRules: uniqueRules.size,
+    riskCount,
+  };
 }
 
 // POST /api/upload

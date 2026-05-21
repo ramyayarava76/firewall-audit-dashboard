@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 
 function DashboardPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
+
+  // Track uploaded files
+  useEffect(() => {
+    if (state?.result?.filename) {
+      const uploadedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+      if (!uploadedFiles.includes(state.result.filename)) {
+        uploadedFiles.push(state.result.filename);
+        localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+      }
+      setUploadedFilesCount(uploadedFiles.length);
+    }
+  }, [state]);
 
   if (!state?.result) {
     return (
@@ -47,6 +60,18 @@ function DashboardPage() {
         <div className="card card-other">
           <span className="card-label">Other</span>
           <span className="card-value">{summary.other}</span>
+        </div>
+        <div className="card card-rules">
+          <span className="card-label">Total Rules</span>
+          <span className="card-value">{summary.totalRules}</span>
+        </div>
+        <div className="card card-files">
+          <span className="card-label">Uploaded Files</span>
+          <span className="card-value">{uploadedFilesCount}</span>
+        </div>
+        <div className="card card-risk">
+          <span className="card-label">Risk Count</span>
+          <span className="card-value">{summary.riskCount}</span>
         </div>
       </div>
 

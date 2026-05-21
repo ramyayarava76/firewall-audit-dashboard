@@ -80,6 +80,9 @@
 .card-allowed .card-value { color: #28a745; }
 .card-blocked .card-value { color: #dc3545; }
 .card-other   .card-value { color: #fd7e14; }
+.card-rules   .card-value { color: #6f42c1; }
+.card-files   .card-value { color: #17a2b8; }
+.card-risk    .card-value { color: #e83e8c; }
 
 /* Table */
 .table-wrapper {
