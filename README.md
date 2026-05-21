@@ -1,90 +1,85 @@
-# Firewall Audit Dashboard
+# Firewall Audit Backend
 
-A small full-stack app to upload firewall logs, parse them, and view an audit summary.
+FastAPI backend service for firewall audit workflows.
 
 ## Features
 
-- Upload `.log`, `.txt`, `.csv`, and `.json` files
-- Parse records into structured entries
-- Show summary metrics (`total`, `blocked`, `allowed`, `other`)
-- Display parsed rows in the dashboard
+- Health and root status endpoints
+- File upload API for CSV and JSON files
+- Basic firewall audit endpoint scaffold
+- Environment-based configuration with `.env`
 
 ## Tech Stack
 
-- Frontend: React 18 (`react-scripts`)
-- Backend: Node.js + Express + Multer
+- Python 3.10+
+- FastAPI
+- Uvicorn
+- Pydantic Settings
 
 ## Project Structure
 
 ```text
-firewall-audit-dashboard/
-	src/                 # React frontend
-	public/
-	server/              # Express backend
-	README.md
+.
+|-- config.py
+|-- file_handler.py
+|-- main.py
+|-- upload.py
+|-- requirements.txt
+`-- README.md
 ```
 
-## Prerequisites
+## Setup
 
-- Node.js 18+
-- npm 9+
+1. Clone the repository.
+2. Create and activate a virtual environment.
+3. Install dependencies.
 
-## Quick Start
-
-1. Install frontend dependencies:
-
-```bash
-npm install
-```
-
-2. Install backend dependencies:
-
-```bash
-cd server
-npm install
-cd ..
-```
-
-3. Start backend (`http://localhost:5000`):
-
-```bash
-cd server
-node index.js
-```
-
-4. In a new terminal, start frontend (`http://localhost:3000`):
-
-```bash
-npm start
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
 ## Environment Variables
 
-Frontend (`.env` in project root):
+Create a `.env` file in the project root (optional, defaults are provided in code):
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:5000
+EMAIL=ramyayarava76@gmail.com
+USERNAME=ramyayarava76
+APP_NAME=Firewall Audit Backend
+APP_VERSION=1.0.0
+DEBUG=false
 ```
 
-Backend (`server/.env`):
+## Run the API
 
-```env
-PORT=5000
-CLIENT_ORIGIN=http://localhost:3000
+```powershell
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## API
+API base URL: `http://127.0.0.1:8000`
 
-- `GET /api/health` - Health check
-- `POST /api/upload` - Upload a file (`multipart/form-data`, field name: `file`)
+## Available Endpoints
 
-## Frontend Scripts
+- `GET /` - Service info and status
+- `GET /health` - Health check
+- `GET /api/v1/audit` - Firewall audit logs placeholder
+- `POST /api/v1/upload` - Upload one or more CSV/JSON files
 
-- `npm start` - Start frontend dev server
-- `npm run build` - Build frontend for production
-- `npm test` - Run tests
+## Upload Request Example
 
-## Notes
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/upload" \
+	-F "files=@sample.csv" \
+	-F "files=@sample.json"
+```
 
-- Max upload size is 10 MB.
-- Upload API response is capped to 500 parsed rows.
+## Development Notes
+
+- Supported upload file types: `.csv`, `.json`
+- Parsed file content is returned directly in the response
+
+## License
+
+This project is for educational/internal use.
