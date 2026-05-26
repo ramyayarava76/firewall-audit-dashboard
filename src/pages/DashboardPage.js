@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
+import RulesTable from '../components/RulesTable';
 
 function DashboardPage() {
   const { state } = useLocation();
@@ -31,7 +32,6 @@ function DashboardPage() {
   }
 
   const { filename, summary, entries } = state.result;
-  const columns = entries.length > 0 ? Object.keys(entries[0]) : [];
 
   return (
     <div className="dashboard-container">
@@ -75,40 +75,11 @@ function DashboardPage() {
         </div>
       </div>
 
-      {/* Entries Table */}
-      {entries.length > 0 ? (
-        <div className="table-wrapper">
-          <table className="audit-table">
-            <thead>
-              <tr>
-                {columns.map((col) => (
-                  <th key={col}>{col}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((row, i) => (
-                <tr key={i} className={getRowClass(row)}>
-                  {columns.map((col) => (
-                    <td key={col}>{row[col]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p className="no-entries">No entries found in the file.</p>
-      )}
+      {/* Rules Table */}
+      <h3 className="section-title">Firewall Rules</h3>
+      <RulesTable entries={entries} />
     </div>
   );
-}
-
-function getRowClass(row) {
-  const action = String(row.action || row.Action || '').toUpperCase();
-  if (action === 'BLOCK' || action === 'DENY') return 'row-blocked';
-  if (action === 'ALLOW' || action === 'PERMIT') return 'row-allowed';
-  return '';
 }
 
 export default DashboardPage;

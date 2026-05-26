@@ -1,0 +1,229 @@
+/* ===========================
+   RulesTable Component Styles
+   =========================== */
+
+.rt-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+/* Toolbar */
+.rt-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e8eaf0;
+  background: #f8f9fc;
+}
+
+.rt-search {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #d0d5e8;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.rt-search:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+}
+
+.rt-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.rt-filter-btn {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid #d0d5e8;
+  border-radius: 20px;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.rt-filter-btn:hover {
+  background: #eef2ff;
+}
+
+.rt-filter-btn.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+.rt-filter-all.active       { background: #1a1a2e; }
+.rt-filter-allow.active,
+.rt-filter-permit.active    { background: #28a745; }
+.rt-filter-block.active,
+.rt-filter-deny.active      { background: #dc3545; }
+.rt-filter-other.active     { background: #fd7e14; }
+
+.rt-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #777;
+  white-space: nowrap;
+}
+
+/* Table wrapper */
+.rt-table-wrapper {
+  overflow-x: auto;
+}
+
+.rt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.rt-table thead tr {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+.rt-th-index {
+  width: 3rem;
+  padding: 0.7rem 0.75rem;
+  text-align: center;
+  color: #aab4cc;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rt-th-sortable {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+.rt-th-sortable:hover {
+  background-color: #2d2d4e;
+}
+
+.rt-th-active {
+  background-color: #2d2d4e;
+  color: #a8d4ff;
+}
+
+.rt-sort-icon {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+/* Rows */
+.rt-td-index {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.78rem;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.rt-table td {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.rt-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rt-table tbody tr:hover {
+  background-color: #f5f8ff;
+}
+
+.rt-row-allow { background-color: #f5fff7; }
+.rt-row-block { background-color: #fff5f5; }
+.rt-row-other { background-color: #fffdf5; }
+
+/* Action cell badge */
+.rt-action-cell {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.78rem;
+}
+
+.rt-action-allow { color: #28a745; }
+.rt-action-block { color: #dc3545; }
+.rt-action-other { color: #fd7e14; }
+
+/* No results */
+.rt-no-results {
+  text-align: center;
+  padding: 2.5rem;
+  color: #999;
+  font-style: italic;
+}
+
+.rt-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+}
+
+/* Pagination */
+.rt-pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid #e8eaf0;
+  background: #f8f9fc;
+}
+
+.rt-page-btn {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #d0d5e8;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.rt-page-btn:hover:not(:disabled) {
+  background: #eef2ff;
+}
+
+.rt-page-btn.active {
+  background: #4a90d9;
+  color: #fff;
+  border-color: #4a90d9;
+  font-weight: 600;
+}
+
+.rt-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.rt-page-ellipsis {
+  padding: 0 0.25rem;
+  color: #aaa;
+}
+
+.rt-page-info {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #777;
+}
