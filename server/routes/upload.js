@@ -42,18 +42,33 @@ function parseLog(content, filename) {
   }
 
   // CSV / log / txt: split on comma or whitespace
-  const isCSV = ext === '.csv' || lines[0]?.includes(',');
-  const headers = isCSV
-    ? lines[0].split(',').map((h) => h.trim())
-    : ['timestamp', 'action', 'source_ip', 'dest_ip', 'protocol', 'port', 'details'];
-
-  const dataLines = isCSV ? lines.slice(1) : lines;
+  const isCSV = ext === '.csv';
+  const firstLine = lines[0] || '';
+  const looksLikeHeaders = firstLine.split(/[,\s]+/).some((h) => /^(timestamp|action|source|dest|protocol|port|id|level)$/i.test(h.trim()));
+  const hasCommas = firstLine.includes(',');
+  
+  let headers, dataLines;
+  
+  if (isCSV || (hasCommas && looksLikeHeaders)) {
+    // CSV format with headers
+    headers = firstLine.split(',').map((h) => h.trim());
+    dataLines = lines.slice(1);
+  } else if (looksLikeHeaders && !hasCommas) {
+    // Space/tab-separated with headers
+    headers = firstLine.split(/\s+/);
+    dataLines = lines.slice(1);
+  } else {
+    // Default log format (no headers)
+    headers = ['timestamp', 'action', 'source_ip', 'dest_ip', 'protocol', 'port', 'details'];
+    dataLines = lines;
+  }
 
   return dataLines.map((line) => {
-    const parts = isCSV ? line.split(',') : line.split(/\s+/);
+    const parts = (isCSV || hasCommas) ? line.split(',').map(p => p.trim()) : line.split(/\s+/);
     const entry = {};
     headers.forEach((h, i) => {
-      entry[h] = parts[i] !== undefined ? parts[i].trim() : '';
+      const value = parts[i]?.trim();
+      entry[h] = value && value.length > 0 ? value : null;
     });
     return entry;
   });
@@ -62,19 +77,29 @@ function parseLog(content, filename) {
 function buildSummary(entries) {
   const total = entries.length;
   const blocked = entries.filter(
-    (e) => String(e.action || e.Action || '').toUpperCase() === 'BLOCK' ||
-            String(e.action || e.Action || '').toUpperCase() === 'DENY'
+    (e) => {
+      const action = String(e.action || e.Action || '').toUpperCase();
+      return action === 'BLOCK' || action === 'DENY' || action === 'DROP';
+    }
   ).length;
   const allowed = entries.filter(
-    (e) => String(e.action || e.Action || '').toUpperCase() === 'ALLOW' ||
-            String(e.action || e.Action || '').toUpperCase() === 'PERMIT'
+    (e) => {
+      const action = String(e.action || e.Action || '').toUpperCase();
+      return action === 'ALLOW' || action === 'PERMIT' || action === 'ACCEPT';
+    }
   ).length;
 
   // Calculate unique rules (combinations of key firewall fields)
   const uniqueRules = new Set();
   entries.forEach((e) => {
-    const ruleKey = `${e.source_ip || e.Source || ''}-${e.dest_ip || e.Destination || ''}-${e.protocol || e.Protocol || ''}-${e.port || e.Port || ''}`;
-    uniqueRules.add(ruleKey);
+    const src = e.source_ip || e.Source || e.src_ip || e.SrcIP || '';
+    const dst = e.dest_ip || e.Destination || e.dst_ip || e.DstIP || '';
+    const proto = e.protocol || e.Protocol || e.proto || '';
+    const prt = e.port || e.Port || e.dst_port || e.DstPort || '';
+    const ruleKey = `${src}-${dst}-${proto}-${prt}`;
+    if (ruleKey !== '----') { // Only count if at least one field is present
+      uniqueRules.add(ruleKey);
+    }
   });
 
   // Risk count = blocked/denied entries

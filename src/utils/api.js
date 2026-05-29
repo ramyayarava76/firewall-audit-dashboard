@@ -15,16 +15,25 @@ export const uploadFile = async (file) => {
       body: formData,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      return { data: null, error: errorText || `Server error: ${response.status}` };
-    }
+    const contentType = response.headers.get('content-type');
+    let errorMessage = `Server error: ${response.status}`;
 
-    const data = await response.json();
-    return { data, error: null };
+    if (contentType?.includes('application/json')) {
+      const data = await response.json();
+      if (!response.ok) {
+        return { data: null, error: data.error || errorMessage };
+      }
+      return { data, error: null };
+    } else {
+      const text = await response.text();
+      if (!response.ok) {
+        return { data: null, error: text || errorMessage };
+      }
+      return { data: { message: text }, error: null };
+    }
   } catch (error) {
     console.error('Upload error:', error);
-    return { data: null, error: 'Network error. Please check your connection.' };
+    return { data: null, error: error.message || 'Network error. Please check your connection.' };
   }
 };
 
@@ -48,3 +57,4 @@ export const apiGet = async (endpoint) => {
     return { data: null, error: 'Network error. Please check your connection.' };
   }
 };
+
