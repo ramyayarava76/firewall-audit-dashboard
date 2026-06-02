@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 import RulesTable from '../components/RulesTable';
+import RiskSummary from '../components/RiskSummary';
 
 function DashboardPage() {
   const { state } = useLocation();
@@ -74,6 +75,8 @@ function DashboardPage() {
           <span className="card-value">{summary.riskCount}</span>
         </div>
       </div>
+
+      <RiskSummary summary={summary} />
 
       {/* Rules Table */}
       <h3 className="section-title">Firewall Rules</h3>
