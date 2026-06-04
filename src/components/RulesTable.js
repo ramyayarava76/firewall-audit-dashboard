@@ -3,6 +3,73 @@ import '../styles/rules-table.css';
 
 const ACTION_FILTERS = ['All', 'ALLOW', 'BLOCK', 'DENY', 'PERMIT', 'OTHER'];
 
+const BADGE_COLUMN_TYPES = {
+  action: 'action',
+  status: 'status',
+  state: 'status',
+  risk: 'risk',
+  level: 'risk',
+  severity: 'risk',
+  protocol: 'protocol',
+  port: 'port',
+};
+
+function getBadgeColumnType(column) {
+  const normalized = String(column || '').toLowerCase();
+  return BADGE_COLUMN_TYPES[normalized] || null;
+}
+
+function getBadgeTone(type, value) {
+  const v = String(value || '').toUpperCase();
+
+  if (type === 'action' || type === 'status') {
+    if (['ALLOW', 'PERMIT', 'ACCEPT', 'OPEN', 'SUCCESS'].includes(v)) return 'good';
+    if (['BLOCK', 'DENY', 'DROP', 'REJECT', 'FAILED', 'FAIL', 'CLOSED'].includes(v)) return 'danger';
+    if (['PENDING', 'WARN', 'WARNING'].includes(v)) return 'warn';
+    return 'neutral';
+  }
+
+  if (type === 'risk') {
+    if (['CRITICAL', 'HIGH', 'SEVERE'].includes(v)) return 'danger';
+    if (['MEDIUM', 'MODERATE'].includes(v)) return 'warn';
+    if (['LOW', 'INFO', 'SAFE'].includes(v)) return 'good';
+    return 'neutral';
+  }
+
+  if (type === 'protocol') {
+    if (['TCP'].includes(v)) return 'info';
+    if (['UDP'].includes(v)) return 'good';
+    if (['ICMP'].includes(v)) return 'warn';
+    return 'neutral';
+  }
+
+  if (type === 'port') {
+    const port = Number(v);
+    if (!Number.isNaN(port)) {
+      if ([22, 23, 3389].includes(port)) return 'danger';
+      if ([80, 443, 53].includes(port)) return 'info';
+    }
+    return 'neutral';
+  }
+
+  return 'neutral';
+}
+
+function renderCellContent(column, value) {
+  const badgeType = getBadgeColumnType(column);
+
+  if (!badgeType) return value;
+
+  const tone = getBadgeTone(badgeType, value);
+  const label = value == null || value === '' ? 'N/A' : String(value);
+
+  return (
+    <span className={`rt-badge rt-badge-${tone}`} title={`${String(column)}: ${label}`}>
+      {label}
+    </span>
+  );
+}
+
 function getActionCategory(action) {
   const a = String(action || '').toUpperCase();
   if (a === 'ALLOW' || a === 'PERMIT') return 'allow';
@@ -155,7 +222,7 @@ function RulesTable({ entries = [] }) {
                     </td>
                     {columns.map((col) => (
                       <td key={col} className={col === 'action' || col === 'Action' ? `rt-action-cell rt-action-${category}` : ''}>
-                        {row[col]}
+                        {renderCellContent(col, row[col])}
                       </td>
                     ))}
                   </tr>
