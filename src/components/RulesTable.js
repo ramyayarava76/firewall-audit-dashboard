@@ -215,8 +215,9 @@ function RulesTable({ entries = [] }) {
             ) : (
               paginated.map((row, i) => {
                 const category = getActionCategory(row.action || row.Action);
+                const rowKey = `row-${(page - 1) * PAGE_SIZE + i}-${row.action || row.Action || i}`;
                 return (
-                  <tr key={i} className={`rt-row rt-row-${category}`}>
+                  <tr key={rowKey} className={`rt-row rt-row-${category}`}>
                     <td className="rt-td-index">
                       {(page - 1) * PAGE_SIZE + i + 1}
                     </td>

@@ -32,13 +32,23 @@ function DashboardPage() {
     );
   }
 
-  const { filename, summary, entries } = state.result;
+  const { filename, summary = {}, entries = [] } = state.result || {};
+
+  // Fallback values if data is missing
+  const safeSummary = {
+    total: summary.total || 0,
+    allowed: summary.allowed || 0,
+    blocked: summary.blocked || 0,
+    other: summary.other || 0,
+    totalRules: summary.totalRules || 0,
+    riskCount: summary.riskCount || 0,
+  };
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h2 className="dashboard-title">Audit Results</h2>
-        <p className="dashboard-filename">File: <strong>{filename}</strong></p>
+        <p className="dashboard-filename">File: <strong>{filename || 'Unknown'}</strong></p>
         <button className="back-btn" onClick={() => navigate('/')}>
           ← Upload Another
         </button>
@@ -48,23 +58,23 @@ function DashboardPage() {
       <div className="summary-cards">
         <div className="card card-total">
           <span className="card-label">Total Entries</span>
-          <span className="card-value">{summary.total}</span>
+          <span className="card-value">{safeSummary.total}</span>
         </div>
         <div className="card card-allowed">
           <span className="card-label">Allowed</span>
-          <span className="card-value">{summary.allowed}</span>
+          <span className="card-value">{safeSummary.allowed}</span>
         </div>
         <div className="card card-blocked">
           <span className="card-label">Blocked / Denied</span>
-          <span className="card-value">{summary.blocked}</span>
+          <span className="card-value">{safeSummary.blocked}</span>
         </div>
         <div className="card card-other">
           <span className="card-label">Other</span>
-          <span className="card-value">{summary.other}</span>
+          <span className="card-value">{safeSummary.other}</span>
         </div>
         <div className="card card-rules">
           <span className="card-label">Total Rules</span>
-          <span className="card-value">{summary.totalRules}</span>
+          <span className="card-value">{safeSummary.totalRules}</span>
         </div>
         <div className="card card-files">
           <span className="card-label">Uploaded Files</span>
@@ -72,11 +82,11 @@ function DashboardPage() {
         </div>
         <div className="card card-risk">
           <span className="card-label">Risk Count</span>
-          <span className="card-value">{summary.riskCount}</span>
+          <span className="card-value">{safeSummary.riskCount}</span>
         </div>
       </div>
 
-      <RiskSummary summary={summary} />
+      <RiskSummary summary={safeSummary} />
 
       {/* Rules Table */}
       <h3 className="section-title">Firewall Rules</h3>

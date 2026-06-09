@@ -23,7 +23,7 @@ function RiskSummary({ summary = {} }) {
 
   const blockRate = total > 0 ? Math.round((blocked / total) * 100) : 0;
   const riskRate = total > 0 ? Math.round((riskCount / total) * 100) : 0;
-  const exposureCount = Math.max(0, allowed - blocked);
+  const exposureCount = allowed;
   const level = getRiskLevel(riskCount, total);
 
   const cards = [
