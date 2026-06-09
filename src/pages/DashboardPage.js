@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 import RulesTable from '../components/RulesTable';
 import RiskSummary from '../components/RiskSummary';
+import Charts from '../components/Charts';
 
 function DashboardPage() {
   const { state } = useLocation();
@@ -87,6 +88,8 @@ function DashboardPage() {
       </div>
 
       <RiskSummary summary={safeSummary} />
+
+      <Charts summary={safeSummary} />
 
       {/* Rules Table */}
       <h3 className="section-title">Firewall Rules</h3>
