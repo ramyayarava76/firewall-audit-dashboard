@@ -36,6 +36,10 @@
   transform: translateY(-2px);
 }
 
+.chart-box-wide {
+  grid-column: 1 / -1;
+}
+
 .chart-title {
   font-size: 18px;
   font-weight: 600;

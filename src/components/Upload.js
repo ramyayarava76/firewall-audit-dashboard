@@ -29,7 +29,9 @@ function Upload({ onUploadSuccess }) {
     if (error) {
       setUploadStatus(`Upload failed: ${error}`);
     } else {
-      setUploadStatus(data?.message || `"${selectedFile.name}" uploaded successfully.`);
+      const username = data?.username || data?.uploadedBy || 'User';
+      const statusMsg = `${data?.message || `"${selectedFile.name}" uploaded successfully.`} (Uploaded by: ${username})`;
+      setUploadStatus(statusMsg);
       if (onUploadSuccess) onUploadSuccess(data);
     }
   };

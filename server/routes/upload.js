@@ -124,10 +124,13 @@ router.post('/', upload.single('file'), (req, res) => {
   const content = req.file.buffer.toString('utf-8');
   const entries = parseLog(content, req.file.originalname);
   const summary = buildSummary(entries);
+  const username = process.env.USERNAME || 'unknown';
 
   return res.json({
     message: `"${req.file.originalname}" processed successfully.`,
     filename: req.file.originalname,
+    username,
+    uploadedBy: username,
     summary,
     entries: entries.slice(0, 500), // cap at 500 rows for response size
   });
