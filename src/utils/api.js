@@ -32,7 +32,6 @@ export const uploadFile = async (file) => {
       return { data: { message: text }, error: null };
     }
   } catch (error) {
-    console.error('Upload error:', error);
     return { data: null, error: error.message || 'Network error. Please check your connection.' };
   }
 };
@@ -53,7 +52,6 @@ export const apiGet = async (endpoint) => {
     const data = await response.json();
     return { data, error: null };
   } catch (error) {
-    console.error('API error:', error);
     return { data: null, error: 'Network error. Please check your connection.' };
   }
 };
