@@ -17,6 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:client": "react-scripts test --watchAll=false",
+    "test:server": "npm --prefix server test",
+    "test:e2e": "npm run test:client && npm run test:server",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
