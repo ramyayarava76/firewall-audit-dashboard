@@ -1,9 +1,23 @@
+/* ===========================
+   Risk Summary Component Styles
+   =========================== */
+
+@import url('./theme.css');
+
 .risk-summary {
   margin: 0 0 1.5rem;
-  padding: 1.1rem;
-  border-radius: 14px;
-  background: linear-gradient(150deg, #f6f9ff 0%, #eef6ff 50%, #f4fbf5 100%);
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, #f6f9ff 0%, #f0f6ff 50%, #f4fbf5 100%);
   border: 1px solid #dce8f8;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-smooth);
+  animation: slideInUp 0.4s ease;
+}
+
+.risk-summary:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .risk-summary-head {
@@ -12,81 +26,223 @@
   gap: 1rem;
   align-items: baseline;
   flex-wrap: wrap;
-  margin-bottom: 0.9rem;
+  margin-bottom: 1.2rem;
 }
 
 .risk-summary-title {
   margin: 0;
-  font-size: 1.02rem;
-  color: #1e2a3d;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
 }
 
 .risk-summary-subtitle {
   margin: 0;
-  font-size: 0.84rem;
-  color: #4a5b75;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
 }
 
 .risk-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .risk-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 0.8rem 0.9rem;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem;
   box-shadow: 0 4px 14px rgba(25, 47, 89, 0.08);
   border-top: 4px solid transparent;
   display: flex;
   flex-direction: column;
-  min-height: 110px;
+  min-height: 120px;
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.risk-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(25, 47, 89, 0.12);
 }
 
 .risk-card-title {
-  font-size: 0.73rem;
+  font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.7px;
   color: #6a778e;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
 }
 
 .risk-card-value {
-  margin-top: 0.4rem;
-  font-size: 1.55rem;
+  margin-top: 0.5rem;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
   line-height: 1.1;
   color: #15233a;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
 }
 
 .risk-card-hint {
   margin-top: auto;
   font-size: 0.78rem;
   color: #52627c;
-  padding-top: 0.45rem;
+  padding-top: 0.6rem;
+  position: relative;
+  z-index: 1;
 }
 
+/* Card Color Variants */
 .risk-card-critical {
   border-top-color: #e03131;
+  background: linear-gradient(135deg, #fff8f8 0%, #fff0f1 100%);
+}
+
+.risk-card-critical:hover {
+  border-top-color: #c92a2a;
+  background: linear-gradient(135deg, #ffe8e8 0%, #ffcccc 100%);
 }
 
 .risk-card-high {
   border-top-color: #d9480f;
+  background: linear-gradient(135deg, #fffaf5 0%, #ffe8d6 100%);
+}
+
+.risk-card-high:hover {
+  border-top-color: #b73409;
+  background: linear-gradient(135deg, #ffebce 0%, #ffd699 100%);
 }
 
 .risk-card-medium {
   border-top-color: #f08c00;
+  background: linear-gradient(135deg, #fffef5 0%, #fff9e8 100%);
+}
+
+.risk-card-medium:hover {
+  border-top-color: #d67a00;
+  background: linear-gradient(135deg, #fff4d9 0%, #ffe8a3 100%);
 }
 
 .risk-card-safe {
   border-top-color: #2f9e44;
+  background: linear-gradient(135deg, #f8ffe8 0%, #f0ffe8 100%);
 }
 
-@media (max-width: 640px) {
+.risk-card-safe:hover {
+  border-top-color: #2b8239;
+  background: linear-gradient(135deg, #e8ffe8 0%, #d9ffd9 100%);
+}
+
+/* ===========================
+   Animations
+   =========================== */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+
+@media (max-width: 768px) {
   .risk-summary {
-    padding: 0.9rem;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .risk-summary-head {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .risk-summary-title {
+    font-size: 1rem;
+  }
+
+  .risk-summary-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .risk-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
   }
 
   .risk-card {
-    min-height: 96px;
+    padding: 0.9rem;
+    min-height: 110px;
+  }
+
+  .risk-card-value {
+    font-size: 1.5rem;
+    margin-top: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .risk-summary {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .risk-summary-title {
+    font-size: 0.95rem;
+  }
+
+  .risk-summary-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .risk-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .risk-card {
+    padding: 0.75rem;
+    min-height: 100px;
+    border-radius: 8px;
+  }
+
+  .risk-card-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+  }
+
+  .risk-card-value {
+    font-size: 1.35rem;
+    margin-top: 0.3rem;
+  }
+
+  .risk-card-hint {
+    font-size: 0.7rem;
+    padding-top: 0.4rem;
   }
 }

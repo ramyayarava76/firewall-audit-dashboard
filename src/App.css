@@ -1,26 +1,96 @@
-.App {
-  text-align: center;
-}
+/* ===========================
+   Main App Layout
+   =========================== */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@import url('./styles/theme.css');
+
+.App {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  background-color: var(--bg-tertiary);
 }
 
-.App-header h1 {
-  margin: 0;
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.App main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.App-header p {
+/* ===========================
+   Header & Footer Flex
+   =========================== */
+
+header {
+  background: linear-gradient(135deg, var(--dark-color) 0%, var(--dark-gray) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-lg) var(--spacing-md);
+  box-shadow: var(--shadow-md);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+header h2 {
   margin: 0;
-  font-size: 1.5rem;
-  opacity: 0.8;
+  color: var(--text-white);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  letter-spacing: 0.5px;
+}
+
+header p {
+  margin: var(--spacing-sm) 0 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-sm);
+}
+
+footer {
+  background-color: var(--dark-color);
+  color: var(--text-white);
+  padding: var(--spacing-lg) var(--spacing-md);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+footer p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.3px;
+}
+
+/* ===========================
+   Responsive
+   =========================== */
+
+@media (max-width: 768px) {
+  header {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  header h2 {
+    font-size: 1.25rem;
+  }
+
+  footer {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: var(--spacing-md) var(--spacing-xs);
+  }
+
+  header h2 {
+    font-size: 1.1rem;
+  }
+
+  header p {
+    font-size: 0.8rem;
+  }
+
+  footer {
+    padding: var(--spacing-sm);
+    font-size: 0.75rem;
+  }
 }
